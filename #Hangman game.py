@@ -83,6 +83,7 @@ print(''.join(blank))
 while update_display < 6:
     if blank == chosen_word:
         print("YOU WIN!")
+        #WIN VARIABLE
         break
     guess = input("Make another guess? ")
     making_a_guess()
