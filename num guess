@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Guess Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .output {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Computer Guess Game</h1>
+    <p>Think of a number between 1 and 100. I will try to guess it!</p>
+    <button class="button" onclick="startGame()">Start Game</button>
+    
+    <div class="output" id="output"></div>
+    <div class="feedback" id="feedback"></div>
+
+    <script>
+        let low = 1;
+        let high = 100;
+        let attempts = 0;
+        let guessedNumbers = new Set();
+        let guess;
+
+        function startGame() {
+            document.getElementById('output').innerHTML = "Press Enter when you're ready...";
+            setTimeout(() => {
+                nextGuess();
+            }, 1000);
+        }
+
+        function nextGuess() {
+            guess = getUniqueGuess();
+            attempts++;
+            document.getElementById('output').innerHTML = `My guess is: ${guess}`;
+            document.getElementById('feedback').innerHTML = `
+                <button class="button" onclick="giveFeedback('h')">High</button>
+                <button class="button" onclick="giveFeedback('l')">Low</button>
+                <button class="button" onclick="giveFeedback('c')">Correct</button>
+            `;
+        }
+
+        function giveFeedback(feedback) {
+            if (feedback === 'c') {
+                document.getElementById('output').innerHTML = `Yay! I guessed your number ${guess} in ${attempts} attempts!`;
+                document.getElementById('feedback').innerHTML = '';
+            } else if (feedback === 'h') {
+                high = guess - 1;
+            } else if (feedback === 'l') {
+                low = guess + 1;
+            } else {
+                alert("Invalid input. Please enter 'h' for high, 'l' for low, or 'c' for correct.");
+            }
+
+            // Check if the range is valid
+            if (low > high) {
+                document.getElementById('output').innerHTML = "Hmm, something doesn't add up. Are you sure about your hints?";
+                document.getElementById('feedback').innerHTML = '';
+            } else {
+                nextGuess();
+            }
+        }
+
+        function getUniqueGuess() {
+            let newGuess = Math.floor(Math.random() * (high - low + 1)) + low;
+
+            // Ensure the guess hasn't been made before
+            while (guessedNumbers.has(newGuess)) {
+                newGuess = Math.floor(Math.random() * (high - low + 1)) + low;
+            }
+
+            guessedNumbers.add(newGuess);
+            return newGuess;
+        }
+    </script>
+</body>
+</html>
