@@ -1,5 +1,5 @@
 # Lists: ordered, mutable, a;;ows duplicate elements
-mylist = ["Banana","Cherry", "Apple"]
+mylist = ["Javascript","Java", "Python"]
 print(mylist)
 
 item = mylist[1]
